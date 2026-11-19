@@ -1,0 +1,33 @@
+{{ define "main" }}
+{{ if ne .Section "posts" }}
+<section>
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</section>
+{{ else }}
+<article>
+  <nav aria-label="All posts">
+    <a href="{{ .Parent.RelPermalink }}">&larr; Back to All Posts</a>
+  </nav>
+  <header>
+    <h1>{{ .Title }}</h1>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 02, 2006" }}</time>
+    {{ with .Params.tags }}
+      <nav>
+        <ul>
+          {{ range . }}
+            <li><a class="button" href="{{ printf "tags/%s/" . | urlize | relURL }}">{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      </nav>
+    {{ end }}
+  </header>
+  {{ if .Params.toc }}
+    <nav aria-label="Table of Contents">
+      {{ .TableOfContents }}
+    </nav>
+  {{ end }}
+  {{ .Content }}
+</article>
+{{ end }}
+{{ end }}

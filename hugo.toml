@@ -1,0 +1,31 @@
+baseURL = 'https://joey.foo/'
+locale = 'en-us'
+title = 'joey.foo'
+
+[params]
+  description = "An opinionated chronicler."
+  author = "Joey"
+
+[[menus.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+
+[[menus.main]]
+  name = "About"
+  url = "/about/"
+  weight = 2
+
+[[menus.main]]
+  name = "Posts"
+  url = "/posts/"
+  weight = 3
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    style = "bw"

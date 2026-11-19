@@ -1,0 +1,38 @@
+<header>
+  {{ $icons := slice }}
+  {{ range readDir "static/icons" }}
+    {{ if eq (path.Ext .Name) ".svg" }}
+      {{ $icons = $icons | append (urls.JoinPath "icons" .Name | relURL) }}
+    {{ end }}
+  {{ end }}
+  {{ with $icons }}
+    <a class="logo" href="{{ site.Home.RelPermalink }}">
+      <img id="site-logo" src="{{ index . 0 }}" alt="" width="55" height="55">
+    </a>
+    <script>
+      (function () {
+        var icons = {{ . | jsonify | safeJS }};
+        var img = document.getElementById("site-logo");
+        if (!img || !icons.length) return;
+        var key = "site-logo";
+        var pick = sessionStorage.getItem(key);
+        if (!pick || icons.indexOf(pick) === -1) {
+          pick = icons[Math.floor(Math.random() * icons.length)];
+          sessionStorage.setItem(key, pick);
+        }
+        img.src = pick;
+      })();
+    </script>
+  {{ end }}
+  <hgroup>
+    <h1><a href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a></h1>
+    <nav aria-label="Main">
+      <ul>
+        {{ $page := . }}
+        {{ range site.Menus.main }}
+          <li><a href="{{ .URL }}"{{ if or (eq .URL $page.RelPermalink) ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+    </nav>
+  </hgroup>
+</header>

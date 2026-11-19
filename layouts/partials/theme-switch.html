@@ -1,0 +1,18 @@
+<button type="button" class="theme-switch">Dark</button>
+<script>
+  (function () {
+    var button = document.currentScript.previousElementSibling;
+    function label() {
+      var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      button.textContent = next === "dark" ? "Dark" : "Light";
+      button.setAttribute("aria-label", "Switch to " + next + " mode");
+    }
+    label();
+    button.addEventListener("click", function () {
+      var theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+      label();
+    });
+  })();
+</script>
